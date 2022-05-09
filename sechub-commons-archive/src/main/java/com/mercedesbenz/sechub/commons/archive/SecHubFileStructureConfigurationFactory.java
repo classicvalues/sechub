@@ -9,16 +9,15 @@ import com.mercedesbenz.sechub.commons.model.SecHubDataConfigurationUsageByName;
 import com.mercedesbenz.sechub.commons.model.SecHubOpenAPIConfiguration;
 import com.mercedesbenz.sechub.commons.model.SecHubWebScanConfiguration;
 
-public class ScanTypeBasedFilterDataBuilder {
+public class SecHubFileStructureConfigurationFactory {
 
-    private ReferenceNameAndRootFolderArchiveFilterData data = new ReferenceNameAndRootFolderArchiveFilterData();
+    private SecHubFileStructureConfiguration data = new SecHubFileStructureConfiguration();
 
-    private ScanTypeBasedFilterDataBuilder() {
-
+    private SecHubFileStructureConfigurationFactory() {
     }
 
-    public static ReferenceNameAndRootFolderArchiveFilterData create(ScanType type, SecHubConfigurationModel model) {
-        ScanTypeBasedFilterDataBuilder builder = new ScanTypeBasedFilterDataBuilder();
+    public static SecHubFileStructureConfiguration create(ScanType type, SecHubConfigurationModel model) {
+        SecHubFileStructureConfigurationFactory builder = new SecHubFileStructureConfigurationFactory();
         builder.createInternally(type, model);
         return builder.data;
     }
@@ -27,7 +26,7 @@ public class ScanTypeBasedFilterDataBuilder {
 
         switch (type) {
         case CODE_SCAN:
-            data.rootFolderAccepted = true;
+            data.setRootFolderAccepted(true);
             addAllUsages(model.getCodeScan(), false);
             break;
         case INFRA_SCAN:
@@ -69,7 +68,7 @@ public class ScanTypeBasedFilterDataBuilder {
         if (names.isEmpty()) {
             fail("may not be empty!");
         }
-        data.acceptedReferenceNames.addAll(names);
+        data.addAcceptedReferenceNames(names);
     }
 
     private void fail(String message) {
